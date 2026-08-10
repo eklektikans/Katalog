@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eklektika — Katalog za nastavu</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #14171f;
+        --bg-soft: #191d27;
+        --card: #1d222e;
+        --card-border: rgba(245, 243, 238, 0.08);
+        --gold: #d4a24c;
+        --teal: #4fd1c5;
+        --text: #f5f3ee;
+        --muted: #9a9488;
+        --dashed: rgba(212, 162, 76, 0.35);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Work Sans', sans-serif;
+        background:
+            radial-gradient(ellipse at 15% 0%, rgba(212,162,76,0.08), transparent 55%),
+            radial-gradient(ellipse at 100% 30%, rgba(79,209,197,0.06), transparent 50%),
+            var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        padding-bottom: 80px;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 64px 40px 20px;
+    }
+    .kicker {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 12.5px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 14px;
+    }
+    .title-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+    .logo-placeholder {
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        border: 1px dashed var(--dashed);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Fraunces', serif;
+        font-weight: 600;
+        font-size: 24px;
+        color: var(--gold);
+        flex-shrink: 0;
+    }
+    .logo-img {
+        width: 58px;
+        height: 58px;
+        object-fit: contain;
+        flex-shrink: 0;
+    }
+    .title {
+        font-family: 'Fraunces', serif;
+        font-weight: 600;
+        font-size: 46px;
+        letter-spacing: -0.5px;
+        line-height: 1.1;
+    }
+    .subtitle {
+        color: var(--muted);
+        font-size: 16px;
+        margin-top: 12px;
+        max-width: 560px;
+        line-height: 1.5;
+    }
+
+    /* ===== SEARCH / QUICK JUMP ===== */
+    .quickbar {
+        max-width: 1180px;
+        margin: 28px auto 0;
+        padding: 0 40px;
+    }
+    .quickbar input {
+        width: 100%;
+        background: var(--bg-soft);
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        color: var(--text);
+        padding: 15px 20px;
+        font-size: 15px;
+        font-family: 'Work Sans', sans-serif;
+    }
+    .quickbar input::placeholder { color: var(--muted); }
+    .quickbar input:focus { outline: none; border-color: var(--gold); }
+
+    /* ===== SECTIONS ===== */
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 46px 40px 0; }
+
+    .section { margin-bottom: 52px; }
+    .section-head {
+        display: flex;
+        align-items: baseline;
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+    .section-index {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 13px;
+        color: var(--gold);
+        border: 1px solid var(--dashed);
+        border-radius: 6px;
+        padding: 2px 8px;
+    }
+    .section-title {
+        font-family: 'Fraunces', serif;
+        font-weight: 600;
+        font-size: 22px;
+    }
+    .section-line { flex: 1; height: 1px; background: var(--card-border); }
+
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+    }
+
+    /* index-card look: a little "corner tab" like a real catalog card */
+    .card {
+        position: relative;
+        background: var(--card);
+        border: 1px solid var(--card-border);
+        border-radius: 14px;
+        padding: 22px 20px 20px;
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: 0.18s ease;
+        overflow: hidden;
+    }
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 34px; height: 34px;
+        background: linear-gradient(135deg, var(--accent-soft, rgba(212,162,76,0.16)), transparent 60%);
+        border-bottom-right-radius: 14px;
+    }
+    .card:hover {
+        border-color: var(--accent, var(--gold));
+        transform: translateY(-2px);
+        background: #232838;
+    }
+    .card-tag {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 1px;
+        color: var(--accent, var(--teal));
+        text-transform: uppercase;
+    }
+    .card-name {
+        font-family: 'Fraunces', serif;
+        font-weight: 600;
+        font-size: 18px;
+    }
+    .card-desc {
+        font-size: 13.5px;
+        color: var(--muted);
+        line-height: 1.45;
+        flex: 1;
+    }
+    .card-go {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 12px;
+        color: var(--accent, var(--gold));
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 4px;
+    }
+
+    /* empty / "coming soon" slot */
+    .card.empty {
+        border-style: dashed;
+        border-color: var(--accent-border, var(--dashed));
+        background: var(--accent-soft, transparent);
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        min-height: 150px;
+        color: var(--muted);
+        cursor: default;
+    }
+    .card.empty::before { display: none; }
+    .card.empty .plus {
+        font-family: 'Fraunces', serif;
+        font-size: 26px;
+        color: var(--accent, var(--gold));
+    }
+    .card.empty .empty-label {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 11.5px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--accent, var(--gold));
+    }
+
+    @media (max-width: 700px) {
+        .header { padding: 44px 20px 10px; }
+        .title { font-size: 32px; }
+        .quickbar, .wrap { padding-left: 20px; padding-right: 20px; }
+        .card-grid { grid-template-columns: 1fr 1fr; }
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div class="kicker">Katalog za nastavu</div>
+    <div class="title-row">
+        <img src="logo.png" class="logo-img" alt="Eklektika">
+        <div class="title">Eklektika</div>
+    </div>
+    <div class="subtitle">"Najbolje od svega — u jednom".</div>
+</div>
+
+<div class="quickbar">
+    <input type="text" id="search" placeholder="Pretraži katalog..." oninput="filterCards()">
+</div>
+
+<div class="wrap" id="sections"></div>
+
+<script>
+    /* =====================================================================
+       UREDI OVDJE — dodaj svoje aplikacije, forme i alate
+       -----------------------------------------------------------------
+       Svaka stavka ide u jednu od kategorija (SECTIONS niže).
+       Za svaku karticu popuni:
+         tag   -> kratka oznaka kategorije/tipa (npr. "APLIKACIJA", "FORMA")
+         name  -> naziv koji želiš da se prikaže
+         desc  -> jedna rečenica opisa
+         url   -> link ka tvojoj aplikaciji / Google formi
+
+       Ako sekcija treba manje ili više praznih "Uskoro" mjesta,
+       promijeni broj u emptySlots.
+    ===================================================================== */
+
+    const SECTIONS = [
+        {
+            title: "Aplikacije",
+            emptyLabel: "Nova APP",
+            items: [
+                { tag: "Aplikacija", name: "Generator MPR plus", desc: "Kreira mjesečni plan rada uz osnovne opcije prilagođavanja.", url: "https://kvizigregms.neocities.org/G_MPR_2.0%20plus/" },
+                { tag: "Aplikacija", name: "Generator MPR pro verzija", desc: "Napredna verzija generatora plana rada sa dodatnim opcijama.", url: "https://eklektikans.github.io/G_MPR.PRO/" },
+                { tag: "Aplikacija", name: "Atlas — interaktivni leksikon", desc: "Interaktivni leksikon pojmova za brzo pretraživanje i objašnjenja.", url: "https://eklektikans.github.io/Axis_ATLAS/" },
+                { tag: "Aplikacija", name: "Moj dnevnik nastave", desc: "Lični dnevnik za bilježenje toka i napretka nastave.", url: "https://eklektikans.github.io/dnevnik/" },
+                { tag: "Aplikacija", name: "Generator priprema G_NP", desc: "Generiše pripreme za nastavne jedinice po zadatoj strukturi.", url: "https://eklektikans.github.io/G_priprema/" },
+            ],
+            emptySlots: 1
+        },
+        {
+            title: "Google forme",
+            emptyLabel: "Nova forma",
+            items: [
+                { tag: "Forma", name: "Iskaz časova", desc: "Online forma za unos i evidenciju nastavnih časova.", url: "https://forms.google.com" },
+            ],
+            emptySlots: 1
+        },
+        {
+            title: "Ostali alati",
+            emptyLabel: "Novi alat",
+            items: [
+                { tag: "Alat", name: "Šihtarica", desc: "Evidencija radnog vremena zaposlenika.", url: "https://kvizigregms.neocities.org/SHihtarica/" },
+                { tag: "Alat", name: "Kvalitet uspjeha odjeljenja", desc: "Pregled i analiza uspjeha učenika na nivou odjeljenja.", url: "https://kvizigregms.neocities.org/IKU_08" },
+            ],
+            emptySlots: 1
+        }
+    ];
+
+    // Umjerena paleta nijansi koja rotira kroz sve kartice (i popunjene i prazne)
+    const ACCENTS = [
+        { solid: '#d4a24c', soft: 'rgba(212,162,76,0.16)', border: 'rgba(212,162,76,0.45)' }, // zlatna
+        { solid: '#4fd1c5', soft: 'rgba(79,209,197,0.16)',  border: 'rgba(79,209,197,0.45)'  }, // tirkizna
+        { solid: '#8b9be0', soft: 'rgba(139,155,224,0.16)', border: 'rgba(139,155,224,0.45)' }, // periwinkle
+        { solid: '#e0a1b0', soft: 'rgba(224,161,176,0.16)', border: 'rgba(224,161,176,0.45)' }, // roze
+        { solid: '#9ecf9a', soft: 'rgba(158,207,154,0.16)', border: 'rgba(158,207,154,0.45)' }, // zelenkasta
+    ];
+    let accentCounter = 0;
+    function nextAccent() {
+        const a = ACCENTS[accentCounter % ACCENTS.length];
+        accentCounter++;
+        return a;
+    }
+
+    function render() {
+        const root = document.getElementById('sections');
+        root.innerHTML = '';
+        accentCounter = 0;
+        SECTIONS.forEach((section, sIdx) => {
+            const sec = document.createElement('div');
+            sec.className = 'section';
+
+            const head = document.createElement('div');
+            head.className = 'section-head';
+            head.innerHTML = `
+                <span class="section-index">${String(sIdx + 1).padStart(2, '0')}</span>
+                <span class="section-title">${section.title}</span>
+                <span class="section-line"></span>
+            `;
+            sec.appendChild(head);
+
+            const grid = document.createElement('div');
+            grid.className = 'card-grid';
+
+            section.items.forEach(item => {
+                const a = document.createElement('a');
+                a.className = 'card';
+                a.href = item.url || '#';
+                a.target = '_blank';
+                a.rel = 'noopener';
+                const accent = nextAccent();
+                a.style.setProperty('--accent', accent.solid);
+                a.style.setProperty('--accent-soft', accent.soft);
+                a.dataset.search = (item.name + ' ' + item.desc + ' ' + item.tag).toLowerCase();
+                a.innerHTML = `
+                    <span class="card-tag">${item.tag}</span>
+                    <span class="card-name">${item.name}</span>
+                    <span class="card-desc">${item.desc}</span>
+                    <span class="card-go">Otvori &rarr;</span>
+                `;
+                grid.appendChild(a);
+            });
+
+            for (let i = 0; i < (section.emptySlots || 0); i++) {
+                const empty = document.createElement('div');
+                empty.className = 'card empty';
+                const accent = nextAccent();
+                empty.style.setProperty('--accent', accent.solid);
+                empty.style.setProperty('--accent-soft', accent.soft);
+                empty.style.setProperty('--accent-border', accent.border);
+                empty.innerHTML = `<div><div class="plus">+</div><div class="empty-label">Uskoro — ${section.emptyLabel || ''}</div></div>`;
+                grid.appendChild(empty);
+            }
+
+            sec.appendChild(grid);
+            root.appendChild(sec);
+        });
+    }
+
+    function filterCards() {
+        const q = document.getElementById('search').value.trim().toLowerCase();
+        document.querySelectorAll('.card:not(.empty)').forEach(card => {
+            const match = !q || card.dataset.search.includes(q);
+            card.style.display = match ? '' : 'none';
+        });
+    }
+
+    render();
+</script>
+
+</body>
+</html>
